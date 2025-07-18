@@ -66,7 +66,7 @@ var person = {
 
 for (var prop in person) {
   if (prop === "firstName") {
-    console.log("${prop}: ${person[prop]}");
+    console.log(`${prop}: ${person[prop]}`);
     break; // if we want to stop iteration
   }
 }
@@ -76,5 +76,5 @@ for (var prop in person) {
   if (prop === "firstName") {
     continue; // if we want to skip this iteration
   }
-  console.log("${prop}: ${person[prop]}");
+  console.log(`${prop}: ${person[prop]}`);
 }
