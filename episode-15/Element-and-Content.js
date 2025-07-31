@@ -136,8 +136,7 @@ GameTitleElement.appendChild(titleTextNode);
 
 // Create Elements
 
-function containLiElements({content})
-{
+function containLiElements({ content }) {
   const element = document.createElement("li");
   const textNode = document.createTextNode(content);
 
