@@ -217,6 +217,8 @@ document
     let maxAttemptsElement = getBy("#input-max-attempts");
     let gameLevelElement = getBy("#game-level");
 
+    const gameAreaEleemnt = getBy("#game-area");
+
     const submitterName = e.submitter.name;
 
     if (submitterName === "play-game") {
@@ -240,14 +242,22 @@ document
 
       // let selectedOption = gameLevelElement.options[gameLevelElement.selectedIndex];
 
-      let game = new Game({ minRange, maxRange, maxAttempts });
-      game.play();
+      // let game = new Game({ minRange, maxRange, maxAttempts });
+      // game.play();
+
+      // gameAreaEleemnt.style.display = 'block';
+
+      // gameAreaEleemnt.classList.remove("hidden");
+      gameAreaEleemnt.classList.toggle("hidden");
     } else {
       titleElement.value = "";
       minRangeElement.value = "";
       maxRangeElement.value = "";
       maxAttemptsElement.value = "";
 
+      gameAreaEleemnt.style.display = "";
+      // gameAreaEleemnt.classList.add("hidden");
+      gameAreaEleemnt.classList.toggle("hidden");
       console.clear();
     }
   });
