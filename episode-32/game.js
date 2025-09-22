@@ -1,4 +1,8 @@
-const gameStateKey = "game-state";
+import {
+  clearingGameState,
+  getGameState,
+  saveGameState,
+} from "./browser-storage.js";
 
 export default class Game {
   #minRange;
@@ -63,15 +67,18 @@ export default class Game {
     this.#maxAttempts = value;
   }
 
-  static hasSavedState() {
-    return localStorage.getItem(gameStateKey);
-  }
+  static async loadSavedGame() {
+    const state = await getGameState();
 
-  static loadSavedState() {
-    const state = JSON.parse(localStorage.getItem(gameStateKey));
-    const game = new Game(state);
+    if (!state) {
+      return null;
+    }
+
+    let game = new Game(state);
+
     game.#secretNumber = state.secretNumber;
     game.history = state.history;
+
     return game;
   }
 
@@ -99,7 +106,7 @@ export default class Game {
     return num;
   }
 
-  checkGuess(guess) {
+  async checkGuess(guess) {
     if (this.#maxAttempts === this.history.length) {
       return; // todo: throw error?
     }
@@ -135,19 +142,16 @@ export default class Game {
           },
         })
       );
-      localStorage.removeItem(gameStateKey);
+      await clearingGameState();
       return;
     }
-    localStorage.setItem(
-      gameStateKey,
-      JSON.stringify({
-        minRange: this.#minRange,
-        maxRange: this.#maxRange,
-        maxAttempts: this.#maxAttempts,
-        allowDuplicateGuesses: this.#allowDuplicateGuesses,
-        secretNumber: this.#secretNumber,
-        history: this.history,
-      })
-    );
+    await saveGameState({
+      minRange: this.#minRange,
+      maxRange: this.#maxRange,
+      maxAttempts: this.#maxAttempts,
+      allowDuplicateGuesses: this.#allowDuplicateGuesses,
+      secretNumber: this.#secretNumber,
+      history: this.history,
+    });
   }
 }
